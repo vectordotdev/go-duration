@@ -1,0 +1,10 @@
+version: 2
+jobs:
+  build:
+    environment:
+      TEST_RESULTS: /tmp/test-results
+    docker:
+      - image: circleci/golang:1.14
+    steps:
+      - checkout
+      - run: go test ./... -bench .
