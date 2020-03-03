@@ -53,7 +53,6 @@ type Duration struct {
 
 // ParseRFC3339 parses a duration encdoded as described in RFC 3339
 func ParseRFC3339(s string) (Duration, error) {
-	fmt.Println(rfc3339DurationPattern.MatchString(s))
 	matches := rfc3339DurationPattern.FindStringSubmatch(s)
 	if matches == nil {
 		return Duration{}, ParseError{fmt.Errorf("must be RFC3999 formatted duration")}
