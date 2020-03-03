@@ -146,8 +146,8 @@ func (d *Duration) UnmarshalText(text []byte) error {
 	return nil
 }
 
-// AddTo adds the duration to the provided time.Time, returning a new time.Time.
-func (d Duration) AddTo(t time.Time) time.Time {
+// AddToTime adds the duration to the provided time.Time, returning a new time.Time.
+func (d Duration) AddToTime(t time.Time) time.Time {
 	t = t.AddDate(d.Years, d.Months, d.Days+d.Weeks*7)
 	t = t.Add(time.Duration(d.Hours) * time.Hour)
 	t = t.Add(time.Duration(d.Minutes) * time.Minute)

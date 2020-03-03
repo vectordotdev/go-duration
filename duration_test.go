@@ -3,9 +3,18 @@ package duration
 import (
 	"errors"
 	"testing"
+	"time"
 
 	"github.com/google/go-cmp/cmp"
 )
+
+func mustParse(t *testing.T, s string) Duration {
+	d, err := ParseRFC3339(s)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return d
+}
 
 func TestParseRFC3339(t *testing.T) {
 	tests := []struct {
@@ -102,6 +111,49 @@ func TestDuration_FormatRFC3339(t *testing.T) {
 
 			if got != tt.expected {
 				t.Errorf("expected %+v.FormatRFC3339() returned %s, expected %s", tt.d, got, tt.expected)
+			}
+		})
+	}
+}
+
+func TestDuration_AddToTime(t *testing.T) {
+	tests := []struct {
+		t string
+		d string
+
+		expected string
+	}{
+		{
+			d: "P3Y6M4DT12H30M5S",
+			t: "2006-01-02T15:04:05Z",
+
+			expected: "2009-07-07T03:34:10Z",
+		},
+		{
+			d: "P5W",
+			t: "2006-01-02T15:04:05Z",
+
+			expected: "2006-02-06T15:04:05Z",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.expected, func(t *testing.T) {
+			dur := mustParse(t, tt.d)
+			tim, err := time.Parse(time.RFC3339, tt.t)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			expected, err := time.Parse(time.RFC3339, tt.expected)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			got := dur.AddToTime(tim)
+
+			if !got.Equal(expected) {
+				t.Errorf("expected %s.AddToTime(%s) returned %s, expected %s", dur, tim, got, expected)
 			}
 		})
 	}
