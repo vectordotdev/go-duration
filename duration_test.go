@@ -158,3 +158,46 @@ func TestDuration_AddToTime(t *testing.T) {
 		})
 	}
 }
+
+func TestDuration_SubtractFromTime(t *testing.T) {
+	tests := []struct {
+		t string
+		d string
+
+		expected string
+	}{
+		{
+			d: "P3Y6M4DT12H30M5S",
+			t: "2006-01-02T15:04:05Z",
+
+			expected: "2002-06-28T02:34:00Z",
+		},
+		{
+			d: "P5W",
+			t: "2006-01-02T15:04:05Z",
+
+			expected: "2005-11-28T15:04:05Z",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.expected, func(t *testing.T) {
+			dur := mustParse(t, tt.d)
+			tim, err := time.Parse(time.RFC3339, tt.t)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			expected, err := time.Parse(time.RFC3339, tt.expected)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			got := dur.SubtractFromTime(tim)
+
+			if !got.Equal(expected) {
+				t.Errorf("expected %s.SubtractFromTime(%s) returned %s, expected %s", dur, tim, got, expected)
+			}
+		})
+	}
+}

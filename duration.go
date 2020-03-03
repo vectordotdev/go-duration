@@ -154,3 +154,12 @@ func (d Duration) AddToTime(t time.Time) time.Time {
 	t = t.Add(time.Duration(d.Seconds) * time.Second)
 	return t
 }
+
+// SubtractFromTime subtracts the duration from the provided time.Time, returning a new time.Time.
+func (d Duration) SubtractFromTime(t time.Time) time.Time {
+	t = t.AddDate(-d.Years, -d.Months, -d.Days+-d.Weeks*7)
+	t = t.Add(time.Duration(-d.Hours) * time.Hour)
+	t = t.Add(time.Duration(-d.Minutes) * time.Minute)
+	t = t.Add(time.Duration(-d.Seconds) * time.Second)
+	return t
+}
