@@ -12,9 +12,9 @@ This library provides facilities for parsing and formatting durations as describ
 Example usage:
 
 ```go
-d, _ := duration.ParseRFC3339("P3Y6M4DT12H30M5S")
-fmt.Println(duration.AddTo(time.Now())
-fmt.Println(duration.FormatRFC3339())
+dur, _ := duration.ParseRFC3339("P3Y6M4DT12H30M5S")
+fmt.Println(dur.AddToTime(time.Now())) // e.g. 2023-09-07 07:49:20.272082206 -0500 CDT
+fmt.Println(dur.FormatRFC3339())       // P3Y6M4DT12H30M5S
 ```
 
 See [package documentation](http://godoc.org/github.com/timberio/go-duration) for usage and more examples.
