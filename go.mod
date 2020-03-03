@@ -1,4 +1,4 @@
-module duration
+module github.com/timberio/go-duration
 
 go 1.14
 
